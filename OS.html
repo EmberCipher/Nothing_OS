@@ -1,0 +1,1927 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NOTHING OS</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#05040d;
+    color:white;
+}
+
+body{user-select:none}
+
+/* ================= BACKGROUND ================= */
+
+#space{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 45%,#32136d 0%,#13082d 28%,#070711 65%,#020207 100%);
+}
+
+.grid{
+    position:absolute;
+    inset:-50%;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:55px 55px;
+    transform:perspective(500px) rotateX(62deg);
+    animation:gridMove 14s linear infinite;
+}
+
+@keyframes gridMove{
+    to{background-position:0 550px}
+}
+
+#particles{
+    position:absolute;
+    inset:0;
+}
+
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:white;
+    opacity:.4;
+    box-shadow:0 0 10px white;
+    animation:twinkle var(--t) infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.1}
+    to{opacity:.8;transform:scale(1.8)}
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:absolute;
+    top:25px;
+    left:30px;
+    right:30px;
+    display:flex;
+    justify-content:space-between;
+    z-index:100;
+}
+
+.logo{
+    font-size:15px;
+    font-weight:900;
+    letter-spacing:5px;
+}
+
+.status{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    color:#817b99;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#53ffae;
+    box-shadow:0 0 15px #53ffae;
+}
+
+/* ================= DESKTOP ================= */
+
+#desktop{
+    position:absolute;
+    inset:0;
+    perspective:1200px;
+}
+
+/* ================= ORBITS ================= */
+
+.ring{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border:1px solid rgba(150,100,255,.12);
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.r1{width:390px;height:390px}
+.r2{width:630px;height:630px}
+.r3{width:880px;height:880px}
+
+/* ================= CORE ================= */
+
+#core{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:190px;
+    height:190px;
+    transform:translate(-50%,-50%);
+    z-index:20;
+}
+
+.coreGlow{
+    position:absolute;
+    inset:-50px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(130,70,255,.28),transparent 68%);
+    animation:coreGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes coreGlow{
+    50%{transform:scale(1.3);opacity:.55}
+}
+
+.coreRing{
+    position:absolute;
+    inset:-20px;
+    border:1px solid rgba(150,110,255,.3);
+    border-radius:50%;
+    animation:rotate 9s linear infinite;
+}
+
+.coreRing:before{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#9c6cff;
+    box-shadow:0 0 20px #9c6cff;
+    left:50%;
+    top:-4px;
+}
+
+@keyframes rotate{
+    to{transform:rotate(360deg)}
+}
+
+.core{
+    position:absolute;
+    inset:20px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:
+        radial-gradient(circle at 35% 25%,#7956ff,#29146b 45%,#08040f 78%);
+    border:1px solid rgba(255,255,255,.2);
+    box-shadow:
+        inset 0 0 40px rgba(255,255,255,.1),
+        0 0 50px rgba(110,70,255,.45);
+    transition:.3s;
+}
+
+.core.active{
+    transform:scale(1.13);
+    box-shadow:
+        0 0 70px #8a58ff,
+        0 0 140px rgba(120,60,255,.5);
+}
+
+.coreIcon{
+    font-size:34px;
+    animation:spin 8s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.coreName{
+    margin-top:7px;
+    font-size:10px;
+    letter-spacing:3px;
+}
+
+.coreSub{
+    margin-top:5px;
+    color:#77709c;
+    font-size:7px;
+    letter-spacing:2px;
+}
+
+/* ================= ICONS ================= */
+
+#icons{
+    position:absolute;
+    inset:0;
+    z-index:40;
+}
+
+.icon{
+    position:absolute;
+    width:105px;
+    height:105px;
+    transform:translate(-50%,-50%);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:25px;
+    background:rgba(13,10,28,.68);
+    backdrop-filter:blur(18px);
+    color:white;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .3s,
+        border .3s;
+    --mx:0px;
+    --my:0px;
+}
+
+.icon:hover{
+    transform:
+        translate(calc(-50% + var(--mx)),calc(-50% + var(--my)))
+        scale(1.22)
+        rotateX(8deg)
+        rotateY(-8deg);
+    border-color:#9674ff;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.6),
+        0 0 35px rgba(120,80,255,.35);
+    z-index:100;
+}
+
+.iconEmoji{
+    font-size:32px;
+    transition:.3s;
+}
+
+.icon:hover .iconEmoji{
+    transform:scale(1.3) rotate(8deg);
+}
+
+.iconName{
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.iconHint{
+    font-size:6px;
+    color:#716b88;
+    letter-spacing:1px;
+}
+
+/* positions */
+
+.a1{left:50%;top:13%}
+.a2{left:27%;top:24%}
+.a3{left:73%;top:24%}
+.a4{left:14%;top:50%}
+.a5{left:86%;top:50%}
+.a6{left:27%;top:76%}
+.a7{left:73%;top:76%}
+.a8{left:50%;top:87%}
+
+/* ================= CURSOR ================= */
+
+#cursor{
+    position:fixed;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(120,80,255,.12),transparent 65%);
+    z-index:5;
+}
+
+/* ================= BOTTOM ================= */
+
+.bottom{
+    position:absolute;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:8px;
+    letter-spacing:3px;
+    color:#625d76;
+    z-index:100;
+    white-space:nowrap;
+}
+
+/* ================= WINDOW ================= */
+
+#window{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(2,2,8,.72);
+    backdrop-filter:blur(15px);
+    z-index:500;
+}
+
+#window.show{display:flex}
+
+.window{
+    width:min(650px,94vw);
+    max-height:88vh;
+    overflow:hidden;
+    border-radius:28px;
+    background:linear-gradient(145deg,rgba(30,23,60,.98),rgba(6,6,15,.99));
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 40px 120px rgba(0,0,0,.8);
+    animation:windowIn .4s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes windowIn{
+    from{
+        opacity:0;
+        transform:scale(.7) translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+}
+
+.windowHead{
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.windowTitle{
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:50%;
+    background:#ffffff0c;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.close:hover{
+    background:#ff4d72;
+    transform:rotate(90deg);
+}
+
+.game{
+    padding:30px;
+    text-align:center;
+}
+
+.game h2{
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.game p{
+    color:#89839f;
+    font-size:11px;
+    line-height:1.7;
+}
+
+.area{
+    position:relative;
+    height:270px;
+    margin-top:22px;
+    border-radius:20px;
+    overflow:hidden;
+    background:
+        radial-gradient(circle,rgba(110,70,255,.13),transparent 60%),
+        #05050d;
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.button{
+    margin-top:18px;
+    padding:12px 20px;
+    border:0;
+    border-radius:13px;
+    color:white;
+    background:linear-gradient(135deg,#7150ff,#a23cff);
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(100,60,255,.3);
+}
+
+.button:hover{
+    transform:translateY(-2px);
+}
+
+.score{
+    margin-top:13px;
+    color:#aaa2c7;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.result{
+    margin-top:13px;
+    min-height:22px;
+    color:#c4b8ff;
+    font-size:12px;
+}
+
+/* ================= COIN ================= */
+
+.coin{
+    position:absolute;
+    width:125px;
+    height:125px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-size:52px;
+    background:linear-gradient(145deg,#ffe594,#bd7315);
+    border:5px solid #e9a632;
+    box-shadow:inset -15px -15px 30px #0005,0 20px 40px #0008;
+}
+
+.coin.flip{
+    animation:coinFlip 1s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes coinFlip{
+    0%{transform:translate(-50%,-50%) rotateY(0)}
+    45%{transform:translate(-50%,-50%) rotateY(1000deg) translateY(-25px)}
+    100%{transform:translate(-50%,-50%) rotateY(1800deg)}
+}
+
+/* ================= SQUISH ================= */
+
+.fly{
+    position:absolute;
+    border:0;
+    background:none;
+    font-size:35px;
+    cursor:crosshair;
+    transition:.1s;
+}
+
+/* ================= MEMORY ================= */
+
+.memoryGrid{
+    width:min(360px,90%);
+    margin:25px auto 0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.memoryTile{
+    aspect-ratio:1;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:15px;
+    background:#141127;
+    color:transparent;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.memoryTile.active{
+    background:#7655ff;
+    box-shadow:0 0 25px #7655ff;
+}
+
+.memoryTile.selected{
+    background:#382568;
+    color:white;
+}
+
+/* ================= PIZZA ================= */
+
+.player{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    width:90px;
+    height:22px;
+    transform:translateX(-50%);
+    border-radius:12px;
+    background:linear-gradient(90deg,#6d50ff,#bd5aff);
+    box-shadow:0 0 25px #7655ff;
+}
+
+.falling{
+    position:absolute;
+    font-size:32px;
+    cursor:pointer;
+}
+
+/* ================= MAGNET ================= */
+
+.magnetObject{
+    position:absolute;
+    font-size:27px;
+    transition:.08s;
+    pointer-events:none;
+}
+
+/* ================= DUCK ================= */
+
+.hero{
+    position:absolute;
+    width:35px;
+    height:35px;
+    display:grid;
+    place-items:center;
+    font-size:28px;
+}
+
+.enemy{
+    position:absolute;
+    font-size:30px;
+}
+
+/* ================= REACTION ================= */
+
+.reactionButton{
+    position:absolute;
+    inset:0;
+    border:0;
+    background:#16132a;
+    color:#77718c;
+    font-size:20px;
+    font-weight:900;
+    cursor:pointer;
+    letter-spacing:2px;
+}
+
+.reactionButton.ready{
+    background:#3bff9d;
+    color:#05130b;
+    box-shadow:inset 0 0 50px #ffffff55;
+}
+
+/* ================= GRAVITY ================= */
+
+.gravityOrb{
+    position:absolute;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#fff,#7d54ff 30%,#26115c);
+    box-shadow:0 0 30px #754dff;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+    .header{
+        top:17px;
+        left:17px;
+        right:17px;
+    }
+
+    .logo{font-size:11px}
+
+    .status{
+        font-size:7px;
+    }
+
+    .r1{width:290px;height:290px}
+    .r2{width:470px;height:470px}
+    .r3{display:none}
+
+    .core{
+        inset:30px;
+    }
+
+    .coreIcon{font-size:25px}
+
+    .icon{
+        width:70px;
+        height:70px;
+        border-radius:18px;
+    }
+
+    .iconEmoji{font-size:23px}
+
+    .iconName{font-size:6px}
+
+    .iconHint{display:none}
+
+    .a1{left:50%;top:16%}
+    .a2{left:20%;top:28%}
+    .a3{left:80%;top:28%}
+    .a4{left:12%;top:50%}
+    .a5{left:88%;top:50%}
+    .a6{left:20%;top:72%}
+    .a7{left:80%;top:72%}
+    .a8{left:50%;top:84%}
+
+    .bottom{
+        font-size:6px;
+    }
+
+    .game{
+        padding:22px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="space">
+    <div class="grid"></div>
+    <div id="particles"></div>
+</div>
+
+<div id="cursor"></div>
+
+<div id="desktop">
+
+    <div class="header">
+        <div class="logo">NOTHING OS</div>
+
+        <div class="status">
+            <span class="dot"></span>
+            SYSTEM USELESS
+        </div>
+    </div>
+
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
+
+    <div id="core">
+        <div class="coreGlow"></div>
+        <div class="coreRing"></div>
+
+        <div class="core">
+            <div class="coreIcon">✦</div>
+            <div class="coreName">NOTHING</div>
+            <div class="coreSub">100% USELESS</div>
+        </div>
+    </div>
+
+    <div id="icons">
+
+        <button class="icon a1" data-game="coin">
+            <div class="iconEmoji">🪙</div>
+            <div class="iconName">COIN FLIP</div>
+            <div class="iconHint">PREDICT</div>
+        </button>
+
+        <button class="icon a2" data-game="squish">
+            <div class="iconEmoji">🪰</div>
+            <div class="iconName">SQUISH IT</div>
+            <div class="iconHint">PRECISION</div>
+        </button>
+
+        <button class="icon a3" data-game="memory">
+            <div class="iconEmoji">🐸</div>
+            <div class="iconName">FROG MEMORY</div>
+            <div class="iconHint">REMEMBER</div>
+        </button>
+
+        <button class="icon a4" data-game="pizza">
+            <div class="iconEmoji">🍕</div>
+            <div class="iconName">PIZZA PANIC</div>
+            <div class="iconHint">CATCH</div>
+        </button>
+
+        <button class="icon a5" data-game="magnet">
+            <div class="iconEmoji">🧲</div>
+            <div class="iconName">MAGNET CHAOS</div>
+            <div class="iconHint">PHYSICS</div>
+        </button>
+
+        <button class="icon a6" data-game="duck">
+            <div class="iconEmoji">🦆</div>
+            <div class="iconName">DUCK DODGE</div>
+            <div class="iconHint">SURVIVE</div>
+        </button>
+
+        <button class="icon a7" data-game="reaction">
+            <div class="iconEmoji">💥</div>
+            <div class="iconName">REACTION</div>
+            <div class="iconHint">SPEED</div>
+        </button>
+
+        <button class="icon a8" data-game="gravity">
+            <div class="iconEmoji">🪐</div>
+            <div class="iconName">GRAVITY TOY</div>
+            <div class="iconHint">SANDBOX</div>
+        </button>
+
+    </div>
+
+    <div class="bottom">
+        MOVE YOUR MOUSE · <span>THE SYSTEM RESPONDS TO YOU</span>
+    </div>
+
+</div>
+
+
+<!-- GAME WINDOW -->
+
+<div id="window">
+
+    <div class="window">
+
+        <div class="windowHead">
+            <div class="windowTitle" id="windowTitle"></div>
+            <button class="close" onclick="closeGame()">×</button>
+        </div>
+
+        <div class="game" id="game"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+PARTICLES
+===================================================== */
+
+const particles=document.getElementById("particles");
+
+for(let i=0;i<80;i++){
+
+    const p=document.createElement("div");
+
+    p.className="particle";
+
+    p.style.left=Math.random()*100+"%";
+    p.style.top=Math.random()*100+"%";
+    p.style.setProperty("--t",(2+Math.random()*5)+"s");
+
+    particles.appendChild(p);
+}
+
+
+/* =====================================================
+CURSOR / MAGNETIC ICONS
+===================================================== */
+
+const cursor=document.getElementById("cursor");
+const icons=[...document.querySelectorAll(".icon")];
+
+document.addEventListener("mousemove",e=>{
+
+    cursor.style.left=e.clientX+"px";
+    cursor.style.top=e.clientY+"px";
+
+    if(innerWidth<700)return;
+
+    icons.forEach(icon=>{
+
+        const r=icon.getBoundingClientRect();
+
+        const cx=r.left+r.width/2;
+        const cy=r.top+r.height/2;
+
+        const dx=e.clientX-cx;
+        const dy=e.clientY-cy;
+
+        const d=Math.hypot(dx,dy);
+
+        if(d<330){
+
+            const force=Math.pow((330-d)/330,1.7)*45;
+
+            icon.style.setProperty(
+                "--mx",
+                dx/(d||1)*force+"px"
+            );
+
+            icon.style.setProperty(
+                "--my",
+                dy/(d||1)*force+"px"
+            );
+
+        }else{
+
+            icon.style.setProperty("--mx","0px");
+            icon.style.setProperty("--my","0px");
+
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+OPEN / CLOSE
+===================================================== */
+
+const windowEl=document.getElementById("window");
+const gameEl=document.getElementById("game");
+const titleEl=document.getElementById("windowTitle");
+
+let intervals=[];
+
+function cleanup(){
+
+    intervals.forEach(x=>clearInterval(x));
+    intervals=[];
+
+}
+
+function closeGame(){
+
+    cleanup();
+
+    windowEl.classList.remove("show");
+
+    gameEl.innerHTML="";
+}
+
+function openGame(type){
+
+    cleanup();
+
+    document.querySelector(".core").classList.add("active");
+
+    setTimeout(()=>{
+        document.querySelector(".core").classList.remove("active");
+    },400);
+
+    windowEl.classList.add("show");
+
+    ({
+        coin:coinGame,
+        squish:squishGame,
+        memory:memoryGame,
+        pizza:pizzaGame,
+        magnet:magnetGame,
+        duck:duckGame,
+        reaction:reactionGame,
+        gravity:gravityGame
+    })[type]();
+}
+
+document.querySelectorAll(".icon").forEach(icon=>{
+
+    icon.onclick=()=>openGame(icon.dataset.game);
+
+});
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="Escape")closeGame();
+
+});
+
+
+/* =====================================================
+1. COIN — PREDICTION
+===================================================== */
+
+let coinStreak=0;
+
+function coinGame(){
+
+    titleEl.innerText="COIN FLIP";
+
+    gameEl.innerHTML=`
+
+        <h2>🪙 Predict the useless future</h2>
+
+        <p>
+            Choose the outcome before the machine flips the coin.
+            Build a streak.
+        </p>
+
+        <div class="area">
+
+            <div class="coin" id="coin">🪙</div>
+
+        </div>
+
+        <button class="button" onclick="chooseCoin('HEADS')">
+            HEADS
+        </button>
+
+        <button class="button" onclick="chooseCoin('TAILS')">
+            TAILS
+        </button>
+
+        <div class="score">
+            STREAK: <span id="coinScore">0</span>
+        </div>
+
+        <div class="result" id="coinResult">
+            Make your prediction.
+        </div>
+    `;
+}
+
+function chooseCoin(choice){
+
+    const coin=document.getElementById("coin");
+    const result=document.getElementById("coinResult");
+
+    coin.classList.remove("flip");
+    void coin.offsetWidth;
+    coin.classList.add("flip");
+
+    result.innerText="THE COIN HAS SPOKEN...";
+
+    setTimeout(()=>{
+
+        const answer=Math.random()<.5?"HEADS":"TAILS";
+
+        if(choice===answer){
+
+            coinStreak++;
+
+            result.innerText=
+                "CORRECT. "+answer+"! 🔥";
+
+        }else{
+
+            coinStreak=0;
+
+            result.innerText=
+                "WRONG. IT WAS "+answer+". 💀";
+
+        }
+
+        document.getElementById("coinScore").innerText=coinStreak;
+
+    },1000);
+
+}
+
+
+/* =====================================================
+2. SQUISH — PRECISION
+===================================================== */
+
+let flyHits=0;
+let flyStart;
+let flyTimer;
+
+function squishGame(){
+
+    flyHits=0;
+
+    titleEl.innerText="SQUISH IT";
+
+    gameEl.innerHTML=`
+
+        <h2>🪰 Precision extermination</h2>
+
+        <p>
+            The fly moves continuously.
+            Squish 5 flies before time runs out.
+        </p>
+
+        <div class="area" id="flyArea"></div>
+
+        <div class="score">
+            FLIES: <span id="flyScore">0</span> / 5
+        </div>
+
+        <div class="result" id="flyResult">
+            The hunt begins.
+        </div>
+    `;
+
+    spawnFly();
+
+}
+
+function spawnFly(){
+
+    const area=document.getElementById("flyArea");
+
+    if(!area)return;
+
+    area.innerHTML="";
+
+    const fly=document.createElement("button");
+
+    fly.className="fly";
+    fly.innerText="🪰";
+
+    fly.style.left="10%";
+    fly.style.top="30%";
+
+    area.appendChild(fly);
+
+    let x=10;
+    let y=30;
+
+    let vx=(Math.random()<.5?-1:1)*(1+Math.random()*1.5);
+    let vy=(Math.random()<.5?-1:1)*(1+Math.random()*1.5);
+
+    flyTimer=setInterval(()=>{
+
+        x+=vx;
+        y+=vy;
+
+        if(x<3||x>90)vx*=-1;
+        if(y<5||y>80)vy*=-1;
+
+        fly.style.left=x+"%";
+        fly.style.top=y+"%";
+
+    },30);
+
+    fly.onclick=()=>{
+
+        clearInterval(flyTimer);
+
+        flyHits++;
+
+        document.getElementById("flyScore").innerText=flyHits;
+
+        if(flyHits>=5){
+
+            area.innerHTML="";
+
+            document.getElementById("flyResult").innerText=
+                "YOU HAVE ACHIEVED FLY SUPREMACY. 🪰💀";
+
+        }else{
+
+            spawnFly();
+
+        }
+
+    };
+
+}
+
+
+/* =====================================================
+3. FROG MEMORY
+===================================================== */
+
+let memorySequence=[];
+let memoryInput=[];
+let memoryRound=0;
+
+function memoryGame(){
+
+    memorySequence=[];
+    memoryInput=[];
+    memoryRound=0;
+
+    titleEl.innerText="FROG MEMORY";
+
+    gameEl.innerHTML=`
+
+        <h2>🐸 Remember the frogs</h2>
+
+        <p>
+            Watch the sequence.
+            Then reproduce it.
+        </p>
+
+        <div id="memoryGrid" class="memoryGrid"></div>
+
+        <div class="score">
+            ROUND: <span id="memoryScore">1</span>
+        </div>
+
+        <div class="result" id="memoryResult">
+            Watch carefully...
+        </div>
+    `;
+
+    createMemoryGrid();
+
+    setTimeout(nextMemoryRound,700);
+
+}
+
+function createMemoryGrid(){
+
+    const grid=document.getElementById("memoryGrid");
+
+    grid.innerHTML="";
+
+    for(let i=0;i<9;i++){
+
+        const tile=document.createElement("button");
+
+        tile.className="memoryTile";
+        tile.dataset.index=i;
+
+        tile.onclick=()=>memoryClick(i);
+
+        grid.appendChild(tile);
+
+    }
+
+}
+
+function nextMemoryRound(){
+
+    memoryRound++;
+
+    memorySequence.push(
+        Math.floor(Math.random()*9)
+    );
+
+    memoryInput=[];
+
+    document.getElementById("memoryScore").innerText=
+        memoryRound;
+
+    showMemorySequence();
+
+}
+
+function showMemorySequence(){
+
+    const tiles=[...document.querySelectorAll(".memoryTile")];
+
+    tiles.forEach(t=>t.classList.remove("active"));
+
+    memorySequence.forEach((index,i)=>{
+
+        setTimeout(()=>{
+
+            tiles[index].classList.add("active");
+
+            setTimeout(()=>{
+                tiles[index].classList.remove("active");
+            },350);
+
+        },i*550);
+
+    });
+
+    setTimeout(()=>{
+
+        document.getElementById("memoryResult").innerText=
+            "YOUR TURN.";
+
+    },memorySequence.length*550+300);
+
+}
+
+function memoryClick(index){
+
+    memoryInput.push(index);
+
+    const tile=document.querySelector(
+        `.memoryTile[data-index="${index}"]`
+    );
+
+    tile.classList.add("selected");
+
+    setTimeout(()=>{
+        tile.classList.remove("selected");
+    },200);
+
+    const position=memoryInput.length-1;
+
+    if(memoryInput[position]!==memorySequence[position]){
+
+        document.getElementById("memoryResult").innerText=
+            "WRONG. MEMORY DELETED. 💀";
+
+        memoryInput=[];
+
+        setTimeout(()=>{
+            memoryRound=0;
+            memorySequence=[];
+            nextMemoryRound();
+        },1200);
+
+        return;
+    }
+
+    if(memoryInput.length===memorySequence.length){
+
+        document.getElementById("memoryResult").innerText=
+            "CORRECT! NEXT ROUND...";
+
+        setTimeout(nextMemoryRound,800);
+
+    }
+
+}
+
+
+/* =====================================================
+4. PIZZA — MOVEMENT
+===================================================== */
+
+let pizzaScore=0;
+let playerX=50;
+let pizzaInterval;
+let pizzaAnimation;
+
+function pizzaGame(){
+
+    pizzaScore=0;
+    playerX=50;
+
+    titleEl.innerText="PIZZA PANIC";
+
+    gameEl.innerHTML=`
+
+        <h2>🍕 Catch the falling pizza</h2>
+
+        <p>
+            Move with ← → or A/D.
+            Catch pizza. Avoid pineapple.
+        </p>
+
+        <div class="area" id="pizzaArea">
+
+            <div class="player" id="player"></div>
+
+        </div>
+
+        <div class="score">
+            PIZZA: <span id="pizzaScore">0</span> / 12
+        </div>
+
+        <div class="result" id="pizzaResult">
+            Keyboard controls enabled.
+        </div>
+    `;
+
+    pizzaInterval=setInterval(dropPizza,650);
+
+    document.onkeydown=pizzaKey;
+
+}
+
+function pizzaKey(e){
+
+    if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a"){
+        playerX-=5;
+    }
+
+    if(e.key==="ArrowRight"||e.key.toLowerCase()==="d"){
+        playerX+=5;
+    }
+
+    playerX=Math.max(5,Math.min(95,playerX));
+
+    const player=document.getElementById("player");
+
+    if(player)
+        player.style.left=playerX+"%";
+
+}
+
+function dropPizza(){
+
+    const area=document.getElementById("pizzaArea");
+
+    if(!area)return;
+
+    const item=document.createElement("div");
+
+    const bad=Math.random()<.18;
+
+    item.className="falling";
+    item.innerText=bad?"🍍":"🍕";
+
+    item.style.left=Math.random()*90+"%";
+    item.style.top="-40px";
+
+    area.appendChild(item);
+
+    let y=-40;
+
+    const timer=setInterval(()=>{
+
+        y+=3.5;
+
+        item.style.top=y+"px";
+
+        const player=document.getElementById("player");
+
+        if(!player){
+            clearInterval(timer);
+            return;
+        }
+
+        const itemRect=item.getBoundingClientRect();
+        const playerRect=player.getBoundingClientRect();
+
+        if(
+            itemRect.bottom>playerRect.top &&
+            itemRect.left<playerRect.right &&
+            itemRect.right>playerRect.left
+        ){
+
+            clearInterval(timer);
+            item.remove();
+
+            if(bad){
+
+                document.getElementById("pizzaResult").innerText=
+                    "PINEAPPLE?! GAME OVER. 🍍";
+
+                clearInterval(pizzaInterval);
+
+            }else{
+
+                pizzaScore++;
+
+                document.getElementById("pizzaScore").innerText=
+                    pizzaScore;
+
+                if(pizzaScore>=12){
+
+                    clearInterval(pizzaInterval);
+
+                    document.getElementById("pizzaResult").innerText=
+                        "PIZZA MASTER. 🍕👑";
+
+                }
+
+            }
+
+        }
+
+        if(y>300){
+
+            clearInterval(timer);
+            item.remove();
+
+        }
+
+    },25);
+
+}
+
+
+/* =====================================================
+5. MAGNET CHAOS — PHYSICS
+===================================================== */
+
+let magnetObjects=[];
+let magnetScore=0;
+
+function magnetGame(){
+
+    magnetScore=0;
+
+    titleEl.innerText="MAGNET CHAOS";
+
+    gameEl.innerHTML=`
+
+        <h2>🧲 Become the magnet</h2>
+
+        <p>
+            Move your mouse around.
+            Attract the floating objects into your cursor.
+        </p>
+
+        <div class="area" id="magnetArea"></div>
+
+        <div class="score">
+            COLLECTED:
+            <span id="magnetScore">0</span> / 15
+        </div>
+
+        <div class="result" id="magnetResult">
+            You are the magnet.
+        </div>
+    `;
+
+    const area=document.getElementById("magnetArea");
+
+    const things=[
+        "🪙","⭐","🍩","🧸","🎲",
+        "💎","🦆","🍕","🎈","🪐",
+        "🍔","🧲","🎁","⚽","🌟"
+    ];
+
+    magnetObjects=things.map((emoji)=>{
+
+        const obj=document.createElement("div");
+
+        obj.className="magnetObject";
+        obj.innerText=emoji;
+
+        const o={
+            el:obj,
+            x:Math.random()*90+5,
+            y:Math.random()*75+10,
+            vx:(Math.random()-.5)*.3,
+            vy:(Math.random()-.5)*.3,
+            alive:true
+        };
+
+        obj.style.left=o.x+"%";
+        obj.style.top=o.y+"%";
+
+        area.appendChild(obj);
+
+        return o;
+
+    });
+
+    area.onmousemove=e=>{
+
+        const rect=area.getBoundingClientRect();
+
+        const mx=(e.clientX-rect.left)/rect.width*100;
+        const my=(e.clientY-rect.top)/rect.height*100;
+
+        magnetObjects.forEach(o=>{
+
+            if(!o.alive)return;
+
+            const dx=mx-o.x;
+            const dy=my-o.y;
+
+            const d=Math.hypot(dx,dy);
+
+            if(d<22){
+
+                o.alive=false;
+
+                o.el.animate(
+                    [
+                        {transform:"scale(1)",opacity:1},
+                        {transform:"scale(2)",opacity:.7},
+                        {transform:"scale(0)",opacity:0}
+                    ],
+                    {duration:250}
+                );
+
+                setTimeout(()=>o.el.remove(),220);
+
+                magnetScore++;
+
+                document.getElementById("magnetScore").innerText=
+                    magnetScore;
+
+                if(magnetScore>=15){
+
+                    document.getElementById("magnetResult").innerText=
+                        "THE ENTIRE UNIVERSE HAS BEEN MAGNETIZED.";
+
+                }
+
+            }else if(d<45){
+
+                o.vx+=dx*.0015;
+                o.vy+=dy*.0015;
+
+            }
+
+        });
+
+    };
+
+    magnetAnimation();
+
+}
+
+function magnetAnimation(){
+
+    magnetObjects.forEach(o=>{
+
+        if(!o.alive)return;
+
+        o.x+=o.vx;
+        o.y+=o.vy;
+
+        if(o.x<2||o.x>96)o.vx*=-1;
+        if(o.y<3||o.y>90)o.vy*=-1;
+
+        o.vx*=.995;
+        o.vy*=.995;
+
+        o.el.style.left=o.x+"%";
+        o.el.style.top=o.y+"%";
+
+    });
+
+    requestAnimationFrame(magnetAnimation);
+
+}
+
+
+/* =====================================================
+6. DUCK DODGE — SURVIVAL
+===================================================== */
+
+let duckX=50;
+let duckY=50;
+let duckKeys={};
+let duckStart;
+let duckRunning=false;
+let duckFrame;
+
+function duckGame(){
+
+    titleEl.innerText="DUCK DODGE";
+
+    gameEl.innerHTML=`
+
+        <h2>🦆 Duck Dodge</h2>
+
+        <p>
+            Move the duck with WASD / arrow keys.
+            Survive for 20 seconds.
+        </p>
+
+        <div class="area" id="duckArea">
+
+            <div class="hero" id="hero">😎</div>
+
+        </div>
+
+        <div class="score">
+            SURVIVAL:
+            <span id="duckTime">0.0</span> / 20s
+        </div>
+
+        <div class="result" id="duckResult">
+            MOVE!
+        </div>
+    `;
+
+    duckX=50;
+    duckY=50;
+
+    duckKeys={};
+
+    duckStart=performance.now();
+    duckRunning=true;
+
+    document.onkeydown=e=>{
+        duckKeys[e.key.toLowerCase()]=true;
+    };
+
+    document.onkeyup=e=>{
+        duckKeys[e.key.toLowerCase()]=false;
+    };
+
+    spawnDuckEnemies();
+
+    duckLoop();
+
+}
+
+let duckEnemies=[];
+
+function spawnDuckEnemies(){
+
+    const area=document.getElementById("duckArea");
+
+    duckEnemies=[];
+
+    for(let i=0;i<7;i++){
+
+        const el=document.createElement("div");
+
+        el.className="enemy";
+        el.innerText="🦆";
+
+        const e={
+            el,
+            x:Math.random()*90,
+            y:Math.random()*80,
+            vx:(Math.random()-.5)*.4,
+            vy:(Math.random()-.5)*.4
+        };
+
+        el.style.left=e.x+"%";
+        el.style.top=e.y+"%";
+
+        area.appendChild(el);
+
+        duckEnemies.push(e);
+
+    }
+
+}
+
+function duckLoop(){
+
+    if(!duckRunning)return;
+
+    const hero=document.getElementById("hero");
+    const area=document.getElementById("duckArea");
+
+    if(!hero||!area)return;
+
+    if(
+        duckKeys["arrowleft"]||
+        duckKeys["a"]
+    )duckX-=.65;
+
+    if(
+        duckKeys["arrowright"]||
+        duckKeys["d"]
+    )duckX+=.65;
+
+    if(
+        duckKeys["arrowup"]||
+        duckKeys["w"]
+    )duckY-=.65;
+
+    if(
+        duckKeys["arrowdown"]||
+        duckKeys["s"]
+    )duckY+=.65;
+
+    duckX=Math.max(3,Math.min(94,duckX));
+    duckY=Math.max(3,Math.min(88,duckY));
+
+    hero.style.left=duckX+"%";
+    hero.style.top=duckY+"%";
+
+    duckEnemies.forEach(e=>{
+
+        e.x+=e.vx;
+        e.y+=e.vy;
+
+        if(e.x<0||e.x>92)e.vx*=-1;
+        if(e.y<0||e.y>88)e.vy*=-1;
+
+        e.el.style.left=e.x+"%";
+        e.el.style.top=e.y+"%";
+
+        if(
+            Math.abs(e.x-duckX)<6 &&
+            Math.abs(e.y-duckY)<6
+        ){
+
+            duckRunning=false;
+
+            document.getElementById("duckResult").innerText=
+                "YOU GOT DUCKED. 🦆💀";
+
+        }
+
+    });
+
+    const elapsed=(performance.now()-duckStart)/1000;
+
+    document.getElementById("duckTime").innerText=
+        elapsed.toFixed(1);
+
+    if(elapsed>=20){
+
+        duckRunning=false;
+
+        document.getElementById("duckResult").innerText=
+            "YOU SURVIVED 20 SECONDS. DUCK LEGEND.";
+
+        return;
+
+    }
+
+    duckFrame=requestAnimationFrame(duckLoop);
+
+}
+
+
+/* =====================================================
+7. REACTION TEST
+===================================================== */
+
+let reactionStart;
+let reactionTimeout;
+let reactionWaiting=false;
+
+function reactionGame(){
+
+    titleEl.innerText="REACTION TEST";
+
+    gameEl.innerHTML=`
+
+        <h2>💥 How fast are you?</h2>
+
+        <p>
+            Wait for the screen to turn green.
+            Click immediately.
+            Clicking early fails.
+        </p>
+
+        <div class="area">
+
+            <button
+                class="reactionButton"
+                id="reactionButton">
+                WAIT...
+            </button>
+
+        </div>
+
+        <div class="result" id="reactionResult">
+            Click to begin.
+        </div>
+    `;
+
+    document.getElementById("reactionButton").onclick=
+        reactionStartGame;
+
+}
+
+function reactionStartGame(){
+
+    const button=document.getElementById("reactionButton");
+
+    if(reactionWaiting){
+
+        const time=performance.now()-reactionStart;
+
+        button.classList.remove("ready");
+
+        document.getElementById("reactionResult").innerText=
+            "REACTION TIME: "+Math.round(time)+" ms";
+
+        reactionWaiting=false;
+
+        return;
+
+    }
+
+    button.innerText="WAIT...";
+    button.classList.remove("ready");
+
+    reactionWaiting=true;
+
+    reactionTimeout=setTimeout(()=>{
+
+        reactionStart=performance.now();
+
+        button.innerText="SMASH!";
+        button.classList.add("ready");
+
+    },1000+Math.random()*3000);
+
+}
+
+
+/* =====================================================
+8. GRAVITY TOY — SANDBOX
+===================================================== */
+
+let gravityObjects=[];
+let gravityAnimation;
+
+function gravityGame(){
+
+    titleEl.innerText="GRAVITY TOY";
+
+    gameEl.innerHTML=`
+
+        <h2>🪐 Gravity sandbox</h2>
+
+        <p>
+            Move your cursor.
+            The cursor becomes a gravity well.
+            Try to keep the planets orbiting.
+        </p>
+
+        <div class="area" id="gravityArea"></div>
+
+        <div class="score">
+            PLANETS: <span id="gravityScore">0</span>
+        </div>
+
+        <div class="result" id="gravityResult">
+            Move the mouse around the universe.
+        </div>
+    `;
+
+    const area=document.getElementById("gravityArea");
+
+    gravityObjects=[];
+
+    for(let i=0;i<8;i++){
+
+        const el=document.createElement("div");
+
+        el.className="gravityOrb";
+
+        const o={
+            el,
+            x:Math.random()*90+5,
+            y:Math.random()*80+5,
+            vx:(Math.random()-.5)*.5,
+            vy:(Math.random()-.5)*.5
+        };
+
+        el.style.left=o.x+"%";
+        el.style.top=o.y+"%";
+
+        area.appendChild(el);
+
+        gravityObjects.push(o);
+
+    }
+
+    area.onmousemove=e=>{
+
+        const rect=area.getBoundingClientRect();
+
+        area.gravityX=
+            (e.clientX-rect.left)/rect.width*100;
+
+        area.gravityY=
+            (e.clientY-rect.top)/rect.height*100;
+
+    };
+
+    area.gravityX=50;
+    area.gravityY=50;
+
+    gravityAnimation=requestAnimationFrame(gravityLoop);
+
+}
+
+function gravityLoop(){
+
+    const area=document.getElementById("gravityArea");
+
+    if(!area)return;
+
+    gravityObjects.forEach(o=>{
+
+        const dx=area.gravityX-o.x;
+        const dy=area.gravityY-o.y;
+
+        const d=Math.max(5,Math.hypot(dx,dy));
+
+        const force=.03;
+
+        o.vx+=dx/d*force;
+        o.vy+=dy/d*force;
+
+        o.vx*=.995;
+        o.vy*=.995;
+
+        o.x+=o.vx;
+        o.y+=o.vy;
+
+        if(o.x<0||o.x>96){
+            o.vx*=-1;
+        }
+
+        if(o.y<0||o.y>92){
+            o.vy*=-1;
+        }
+
+        o.el.style.left=o.x+"%";
+        o.el.style.top=o.y+"%";
+
+    });
+
+    gravityAnimation=requestAnimationFrame(gravityLoop);
+
+}
+
+
+/* =====================================================
+CLICK OUTSIDE
+===================================================== */
+
+windowEl.onclick=e=>{
+
+    if(e.target===windowEl){
+        closeGame();
+    }
+
+};
+
+</script>
+
+</body>
+</html>
