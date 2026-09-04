@@ -50,10 +50,19 @@ For Hardware:
 ### Implementation
 
 For Software:
+Screenshots (Add at least 3)
+<img width="1917" height="1020" alt="Screenshot 2026-09-04 040453" src="https://github.com/user-attachments/assets/b6690b2c-7627-4c2a-b3fe-718a08e1a3a7" />
+This section of the code builds the animated futuristic background and basic visual styling of the website.
 
+<img width="1905" height="1018" alt="Screenshot 2026-09-04 040530" src="https://github.com/user-attachments/assets/ae057142-c4e5-41c3-806a-cc83f0643f06" />
+This section builds the central interface and connects the desktop icons to the different mini-games.
+
+
+<img width="1916" height="1015" alt="Screenshot 2026-09-04 040555" src="https://github.com/user-attachments/assets/118aefe7-79c5-4d79-b843-25a468239267" />
+This section controls real-time animations, object movement, and interaction with the game windows.
 # Installation
 
 Clone the repository:
 
 ```bash
-git clone [YOUR-GITHUB-REPOSITORY-LINK]
+git clone https://github.com/EmberCipher/Nothing_OS/commit/e58dd801a084fb49a580742d6c9e8b63904705d2
